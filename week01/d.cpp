@@ -25,5 +25,6 @@ int main() {
 			}
 		}
 		if (!found) {cout << "None!";}
+		cout << "\n"
 	}
 }

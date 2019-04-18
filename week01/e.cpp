@@ -1,11 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int power(int base, int expo) {
+long long power(long long base, int expo) {
 	long long result = 1;
-	while (expo > 0) {
-		result = result * (long long)(base);
-		expo--;
+	for (;;) {
+		if (expo & 1)
+			result *= base;
+		expo >>= 1;
+		if (!expo)
+			break;
+		base *= base;
 	}
 	return result;
 }
