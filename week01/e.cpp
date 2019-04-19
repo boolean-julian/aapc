@@ -14,6 +14,14 @@ long long power(long long base, int expo) {
 	return result;
 }
 
+long long power(long long base, int expo) {
+	long long result = 1;
+	for (int i = expo; i > 0; i--) {
+		result *= base;
+	}
+	return result;
+}
+
 int main() {
 	short T;
 	cin >> T;

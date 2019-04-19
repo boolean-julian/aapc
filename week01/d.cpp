@@ -2,17 +2,17 @@
 using namespace std;
 
 int main() {
-	short N;
-	short M;
+	int N;
+	int M;
 
 	cin >> N;
 	cin >> M;
 
 	int list[N];
-	short i, j;
+	int i, j;
 	for (i = 0; i < N; i++) {cin >> list[i];}
 
-	long long query;
+	int query;
 	bool found;
 	for (i = 0; i < M; i++) {
 		cin >> query;
@@ -25,6 +25,6 @@ int main() {
 			}
 		}
 		if (!found) {cout << "None!";}
-		cout << "\n"
+		cout << "\n";
 	}
 }
