@@ -2,8 +2,8 @@
 using namespace std;
 
 bool pair_compare(pair<long, long> a, pair<long, long> b) {
-	float x = (float) a.first/a.second;
-	float y = (float) b.first/b.second;
+	double x = (double) a.first/a.second;
+	double y = (double) b.first/b.second;
 	return (x == y) ? a.first < b.first : x < y;
 }
 
@@ -14,12 +14,14 @@ int main() {
 
 	long num[N];
 	long den[M];
+	
 	for (int i = 0; i < N; i++)
 		cin >> num[i];
 	for (int i = 0; i < M; i++)
 		cin >> den[i];
 
 	vector<pair<long, long>> ps;
+	
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
 			ps.push_back({num[i], den[j]});
@@ -27,6 +29,7 @@ int main() {
 	}
 
 	sort(ps.begin(), ps.end(), pair_compare);
+
 	for (int i = 0; i < ps.size(); i++) {
 		pair<long,long> curr = ps.at(i);
 		cout << curr.first << "/" << curr.second << "\n";
