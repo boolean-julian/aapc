@@ -8,29 +8,28 @@ int main() {
 	cin >> M;
 	cin >> B;
 
-	multiset<int> buckets;
-	int bucket_index[M];
+	map<int, int> ball;
+	int temp;
 	for (int i = 0; i < M; i++) {
-		cin >> bucket_index[i];
-		buckets.insert(bucket_index[i]);
+		cin >> temp;
+		ball[i] = temp;
 	}
 
 	int bucket;
 	int amount;
 	int location;
-	bool location_flag;
+	bool flag;
 	for (int i = 0; i < B; i++) {
 		cin >> bucket;
 		cin >> amount;
 
-		bool location_flag = true;
+		bool flag = true;
 		for (int j = 0; j < amount; j++) {
 			cin >> location;
-			if (bucket_index[location-1] != bucket) {
-				location_flag = false;
+			if (ball[location-1] != bucket) {
+				flag = false;
 			}
 		}
-
-		cout << ((location_flag && amount == buckets.count(bucket)) ? "CORRECT" : "INCORRECT") << endl;
+		cout << (flag ? "CORRECT" : "INCORRECT") << endl;
 	}
 }
