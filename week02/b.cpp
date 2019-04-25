@@ -18,17 +18,19 @@ int main() {
 	int bucket;
 	int amount;
 	int location;
-	bool location_flag = true;
+	bool location_flag;
 	for (int i = 0; i < B; i++) {
 		cin >> bucket;
 		cin >> amount;
 
+		bool location_flag = true;
 		for (int j = 0; j < amount; j++) {
 			cin >> location;
 			if (bucket_index[location-1] != bucket) {
 				location_flag = false;
 			}
 		}
+
 		cout << ((location_flag && amount == buckets.count(bucket)) ? "CORRECT" : "INCORRECT") << endl;
 	}
 }
