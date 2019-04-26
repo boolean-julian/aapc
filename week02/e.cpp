@@ -2,8 +2,27 @@
 using namespace std;
 
 int main() {
-	int N;
-	cin >> N;
-
+	int N = 600000;
+	multiset<unsigned long> storage;
 	
+	int amount = 0;
+	multiset<unsigned long>::iterator it = storage.begin();
+	string temp;
+	for (int i = 0; i < N; i++) {
+		cin >> temp;
+
+		if (temp[0] == '#') {
+			if (amount > 0) {
+				it = storage.begin();
+				advance(it, int(0.667*amount));
+				cout << *it << endl;
+				storage.erase(it);
+				amount--;
+			}
+		}
+		else {
+			storage.insert(stoul(temp));
+			amount++;
+		}
+	}
 }
