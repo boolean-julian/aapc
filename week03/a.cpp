@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MAXN = 1e7;
+const int MAXN = 100001;
 vector<int> edges[MAXN];
 int used[MAXN], tin[MAXN], tout[MAXN], timer = 1;
 
@@ -30,13 +30,16 @@ int main() {
 	}
 
 	int j;
+	int p;
 	for (int i = 0; i < N; i++) {
 		cin >> j;
 		if (j != 0)
 			add_edge(j-1, i);
+		else
+			p = i;
 	}
 
-	dfs(N-1);
+	dfs(p);
 
 	int queries, a, b;
 	cin >> queries;
