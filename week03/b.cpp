@@ -3,42 +3,46 @@ using namespace std;
 
 const int MAXN = 1e7;
 
-struct edge {
-  int u, ind;
-};
+int n; // number of nodes
+vector<int> adj[MAXN]; // adjacency list of graph
 
-vector<edge> edges[MAXN];
-int fout[MAXN];
-bool bridge[MAXN];
-int used[MAXN], tin[MAXN], tout[MAXN], timer = 1;
+vector<bool> visited;
+vector<int> tin, low;
+int timer;
 
-void dfs_bridge(int v, int p = -1, int pind = -1) {
-    used[v] = 1;
-    fout[v] = tin[v] = timer++;
-    for(auto e: edges[v]) {
-        if(e.u == p && e.ind == pind)
-            continue;
-        if(!used[e.u]) {
-            dfs_bridge(e.u, v, e.ind);
-            fout[v] = min(fout[v], fout[e.u]);
-            if(tin[v] < fout[e.u])
-                bridge[e.ind] = 1;
+void IS_BRIDGE(int v, int to) {
+	cout << "Edge from " << v << " to " << to << " is a bridge.\n";
+}
+
+void dfs(int v, int p = -1) {
+    visited[v] = true;
+    tin[v] = low[v] = timer++;
+    for (int to : adj[v]) {
+        if (to == p) continue;
+        if (visited[to]) {
+            low[v] = min(low[v], tin[to]);
+        } else {
+            dfs(to, v);
+            low[v] = min(low[v], low[to]);
+            if (low[to] > tin[v])
+                IS_BRIDGE(v, to);
         }
-        else
-            fout[v] = min(fout[v], tin[e.u]);
     }
 }
 
-int bindex = 0;
+void find_bridges(int n) {
+    timer = 0;
+    visited.assign(n, false);
+    tin.assign(n, -1);
+    low.assign(n, -1);
+    for (int i = 0; i < n; i++) {
+        if (!visited[i])
+            dfs(i);
+    }
+}
+
 void add_edge(int u, int v) {
-	
-	edge target;
-	target.u = u;
-	target.ind = bindex;
-
-	edges[u].push_back(target);
-	bindex++;
-
+	adj[u].push_back(v);
 }
 
 int main() {
@@ -47,13 +51,20 @@ int main() {
 
 	int from[N], to[N];
 	for (int i = 0; i < N; i++) {
-		cin >> from[N];
-		cin >> to[N];
-		add_edge(from, to);
+		cin >> from[i];
+		cin >> to[i];
+		add_edge(from[i], to[i]);
 	}
 
-	dfs_bridge(0);
+	find_bridges(N);
+	cout << "oof";
+	/*
+	for (int i = 0; i < 30; i++) {
+		cout << bridge[i] << "\n";
+	}
+	*/
 
+	/*
 	int u,v,M;
 	cin >> M;
 	char RC;
@@ -65,5 +76,5 @@ int main() {
 		if (RC == 'R') {
 			
 		}
-	}
+	}*/
 }
