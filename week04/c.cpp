@@ -8,11 +8,11 @@ int dis[MAXN], ptr[MAXN];
 vector<edge> edglist;
 vector<int> edgind[MAXN];
 
-void dinic_addedge(int u, int v, int c) {
+void dinic_addedge(int u, int v, int c = 1) {
     edgind[u].push_back((int) edglist.size());
     edglist.push_back({u, v, c, 0});
     edgind[v].push_back((int) edglist.size());
-    edglist.push_back({v, u, 0, 0});
+    edglist.push_back({v, u, c, 0}); // bidirectional edges
 }
 bool bfs_dinic(int s, int t) {
     queue<int> q;
@@ -48,8 +48,14 @@ int dfs_dinic(int v, int t, int flow) {
     }
     return 0;
 }
+
 long long dinic(int n, int s, int t) {
     long long flow = 0;
+
+    for (int i = 0; i < edglist.size(); i++) {
+    	edglist[i].flow = 0;
+    }
+
     while(true) {
         fill(dis, dis+n+1, -1);
         if(!bfs_dinic(s, t))
@@ -67,14 +73,17 @@ int main() {
 	cin >> N;
 	cin >> M;
 
-	int a,b,c;
+	int a,b;
 	for (int i = 0; i < M; i++) {
 		cin >> a;
 		cin >> b;
-		cin >> c;
-
-		dinic_addedge(a,b,c);
+		dinic_addedge(a,b);
+	}
+	
+	int lo = INF;
+	for (int i = 2; i <= N; i++) {
+		lo = min(lo, (int) dinic(N,1,i));
 	}
 
-	cout << dinic(N, 1, N) << "\n";
+	cout << lo << "\n";	
 }
