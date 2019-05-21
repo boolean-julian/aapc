@@ -12,7 +12,7 @@ void dinic_addedge(int u, int v, int c) {
     edgind[u].push_back((int) edglist.size());
     edglist.push_back({u, v, c, 0});
     edgind[v].push_back((int) edglist.size());
-    edglist.push_back({v, u, 0, 0});
+    edglist.push_back({v, u, c, 0});
 }
 bool bfs_dinic(int s, int t) {
     queue<int> q;

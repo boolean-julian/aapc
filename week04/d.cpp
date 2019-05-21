@@ -81,10 +81,4 @@ int main() {
 	}
 
 	cout << dinic(N, 1, N) << "\n";
-    int i = 0;
-    while(i < 10) {
-        cout << ptr[i] << " --> ";
-        i++;
-    }
-    cout << ptr[i] << "\n";
 }
