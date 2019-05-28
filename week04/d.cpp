@@ -80,5 +80,5 @@ int main() {
 		dinic_addedge(a,b);
 	}
 
-	cout << dinic(N, 1, N) << "\n";
+    cout << dinic(N, 1, N) << "\n";
 }
