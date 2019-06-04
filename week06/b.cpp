@@ -48,28 +48,12 @@ double dis(Line l, PT p) {
 bool angle_acute(PT a, PT b) {
     return dot(a, b) > 0;
 }
-double seg_dis(PT a1, PT a2, PT p) {
-    if (angle_acute(p - a1, a2 - a1) && 
-        angle_acute(p - a2, a1 - a2)) {
+double ray_dis(PT a1, PT a2, PT p) {
+    if (angle_acute(p - a1, a2 - a1)) {
         Line l = build(a1, a2);
         return dis(l, p);
     }
-    return min(dis(a1, p), dis(a2, p));
-}
-bool intersect(int a1, int a2, int b1, int b2) {
-    if (a1 > a2)
-        swap(a1, a2);
-    if (b1 > b2)
-        swap(b1, b2);
-    return max(a1, b1) <= min(a2, b2);
-}
-bool intersect(PT a1, PT a2, PT b1, PT b2) {
-    Line la = build(a1, a2);
-    Line lb = build(b1, b2); 
-    return intersect(a1.x, a2.x, b1.x, b2.x) &&
-           intersect(a1.y, a2.y, b1.y, b2.y) &&
-           val(la, b1) * val(la, b2) <= 0 &&
-           val(lb, a1) * val(lb, a2) <= 0;
+    return dis(a1, p);
 }
 
 int main() {
@@ -81,19 +65,28 @@ int main() {
     cin >> a1.x >> a1.y >> a2.x >> a2.y;
     cin >> b1.x >> b1.y >> b2.x >> b2.y;
 
-    int samples = 1e5;
-    double M = 1e9;
+    PT ad = a2 - a1;
+    PT bd = b2 - b1;
 
-    PT da = a2-a1;
-
-    double t, r;
-    for (int i = 0; i < samples; i++) {
-        t = i/(samples-1);
-        M = min(M, seg_dis(b1, b2, a1+da*t));
+    double dx = b1.x - a1.x;
+    double dy = b1.y - a1.y;
+    double det = bd.x * ad.x - bd.y - ad.x;
+    
+    double u = -1;
+    double v = -1;
+    if (abs(det) > EPS) {
+        u = (dy * bd.x - dx * bd.y) / det;
+        v = (dy * ad.x - dx * ad.y) / det;
+    }  
+    
+    double minimum = 0;
+    if (u < -EPS || v < -EPS) {
+        minimum = ray_dis(a1, a2, b1);
+        minimum = min(ray_dis(a1, a2, b2), minimum);
+        minimum = min(ray_dis(b1, b2, a1), minimum);
+        minimum = min(ray_dis(b1, b2, a2), minimum);
     }
-
-    cout << M;
-
+    cout << minimum << endl;
 }
 
 
