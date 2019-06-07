@@ -50,7 +50,7 @@ bool angle_acute(PT a, PT b) {
 }
 double seg_dis(PT a1, PT a2, PT p) {
     if (angle_acute(p - a1, a2 - a1) && 
-        angle_acute(p - a2, a1 - a2)) {
+    	angle_acute(p - a2, a1 - a2)) {
         Line l = build(a1, a2);
         return dis(l, p);
     }
@@ -72,64 +72,8 @@ bool intersect(PT a1, PT a2, PT b1, PT b2) {
            val(lb, a1) * val(lb, a2) <= 0;
 }
 
-double ray_dis(PT a1, PT a2, PT p) {
-    if (angle_acute(p - a1, a2 - a1)) {
-        Line l = build(a1, a2);
-        return dis(l, p);
-    }
-    return dis(a1, p);
-}
-
-
 int main() {
-    cout.setf(ios::fixed), cout.precision(6);
+    cout.setf(ios::fixed), cout.precision(8);
     
-    PT a1, a2;
-    PT b1, b2;
-
-    cin >> a1.x >> a1.y >> a2.x >> a2.y;
-    cin >> b1.x >> b1.y >> b2.x >> b2.y;
-
-    // solution for rays
-    PT ad = a2 - a1;
-    PT bd = b2 - b1;
-
-    double dx = b1.x - a1.x;
-    double dy = b1.y - a1.y;
-    double det = bd.x * ad.y - bd.y * ad.x;
-    
-    double u = -1;
-    double v = -1;
-    if (det != 0) {
-        u = (dy * bd.x - dx * bd.y) / det;
-        v = (dy * ad.x - dx * ad.y) / det;
-    }
-
-    double minimum = 0;
-    if (u < 0 || v < 0) {
-        minimum = ray_dis(a1, a2, b1);
-        minimum = min(ray_dis(a1, a2, b2), minimum);
-        minimum = min(ray_dis(b1, b2, a1), minimum);
-        minimum = min(ray_dis(b1, b2, a2), minimum);
-    }
-    cout << minimum << endl;
-    
-    // solution for segments 
-    /*
-    double minimum;
-    if (intersect(a1, a2, b1, b2)) {
-        minimum = 0;
-    }
-    else {
-        minimum = seg_dis(a1, a2, b1);
-        minimum = min(seg_dis(a1, a2, b2), minimum);
-        minimum = min(seg_dis(b1, b2, a1), minimum);
-        minimum = min(seg_dis(b1, b2, a2), minimum);
-    }
-
-    cout << minimum << endl;
-    */
 }
-
-
 

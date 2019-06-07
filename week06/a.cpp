@@ -57,6 +57,13 @@ PT centroid(int n) {
     return sum / n;
 }   
 
+void toggle(bool &flip) {
+    if (flip)
+        flip = false;
+    else
+        flip = true;
+}
+
 int main() {
     cout.setf(ios::fixed), cout.precision(8);
 
@@ -70,31 +77,32 @@ int main() {
     }
 
     PT c = centroid(n);
-    //cout << c.x << " " << c.y << endl;
+    
+    int is_acute = 0;
+    int is_faraway = 0;
+    for (int i = 0; i < n; i++) {
+        if (angle_acute(points[(i+2)%n] - points[(i+1)%n], points[i%n] - points[(i+1)%n])) {
+            is_acute += (1 << (i+1)%n);
+        }
         
-    int _first = 2;
-    if (dis(c,points[0]) < dis(c,points[1]))
-        _first = 1;
-
-    int is_star = 1;
-    for (int i = _first; i < n + _first; i += 2) {
-        if (!angle_obtuse(points[(i+2)%n] - points[(i+1)%n], points[i%n] - points[(i+1)%n])) {
-            is_star = 0;
-            break;
-        }
-        if (!angle_acute(points[(i+1)%n] - points[i%n], points[(i-1)%n] - points[i%n])) {
-            is_star = 0;
-            break;
-        }
-        /*
-        if (dis(c,points[i%n]) <= dis(c, points[(i-1)%n]) && dis(c,points[i%n]) <= dis(c, points[(i+1)%n])) {
-            is_star = 0;
-            break;
-        }
-        */
+        if (dis(c,points[(i+2)%n]) <= dis(c, points[(i+1)%n]) && dis(c,points[i%n]) <= dis(c, points[(i+1)%n])) {
+            is_faraway += (1 << (i+1)%n);
+        }   
     }
 
-    cout << is_star << endl;
+    int mask1 = 0;
+    int mask2 = 0;
 
+    for (int i = 0; i < n; i+=2) {
+        mask1 += (1 << (i+1)%n);
+        mask2 += (1 << i%n);
+    }
 
+    int result = 0;
+    if (mask1 == is_acute && mask1 == is_faraway)
+        result = 1;
+    if (mask2 == is_acute && mask2 == is_faraway)
+        result = 1;
+
+    cout << result << endl;
 }
