@@ -1,42 +1,53 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MAXN = 1e5;
-int a[MAXN];
+const int MAXC = 3000;
+int ballot[MAXC];
+int beats[MAXC][MAXC];
 
 int main() {
 	int testcase = 1;
-	int b, c;
+	int B, C;
 	do {
-		cin >> b >> c;
-		fill(a, a+c, 0);
+		cin >> B >> C;
 
-		int ct;
-		for (int i = 0; i < b; i++) {
-			for (int j = 0; j < c; j++) {
-				cin >> ct;
-				a[ct] += j;
+		fill(ballot, ballot+C, 0);
+		for (int i = 0; i < C; i++) {
+			fill(beats[i], beats[i]+C, 0);
+		}
+
+		for (int i = 0; i < B; i++) {
+			for (int j = 0; j < C; j++) {
+				cin >> ballot[j];
+			}
+			for (int j = 0; j < C; j++) {
+				for (int k = j+1; k < C; k++) {
+					beats[ballot[j]][ballot[k]] += 1;
+				}
+			}
+		}	
+
+		int winner = 0;
+		for (int i = 0; i < C; i++) {
+			for (int j = 0; j < C; j++) {
+				if (beats[i][j] > beats[j][i]) {
+					winner = i;
+				}
 			}
 		}
 
-		int index = 0;      
-		for (int i = 1; i < c; i++) {
-			if (a[i] < a[index])
-				index = i;
-		}
-
-		bool minexists = true;
-		for (int i = 0; i < c; i++) {
-			if (i != index && a[index] == a[i]) {
-				minexists = false;
+		bool nowinner = false;
+		for (int i = 0; i < C; i++) {
+			if (beats[i][winner] > beats[winner][i]) {
+				nowinner = true;
 			}
 		}
+		
+		cout << "Case " << testcase << ": ";
+		if (nowinner)		cout << "No Condorcet winner";
+		else 				cout << winner;
+		cout << endl;
 
-		if (b != 0 || c != 0) {
-			cout << "Case " << testcase << ": ";
-			if (minexists)		cout << index << endl;
-			else       			cout << "No Condorcet winner" << endl;
-		}
 		testcase++;
-	} while (b != 0 || c != 0);
+	} while (B != 0 || C != 0);
 }

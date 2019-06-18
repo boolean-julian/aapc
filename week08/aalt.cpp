@@ -2,54 +2,53 @@
 using namespace std;
 
 const int MAXB = 500, MAXC = 2500;
-int a[MAXC];
-int m[MAXC][MAXB];
-
+int ballot[MAXC];
+int beats[MAXC][MAXC];
 
 int main() {
 	int testcase = 1;
-	int b, c;
+	int B, C;
 	do {
-		cin >> b >> c;
-		fill(a, a+c, 0);
+		cin >> B >> C;
 
-		for (int i = 0; i < b; i++) {
-			fill(m[i], m[i]+c, 0);
-			for (int j = 0; j < c; j++) {
-				cin >> a[j]; 
+		fill(ballot, ballot+C, 0);
+		for (int i = 0; i < C; i++) {
+			fill(beats[i], beats[i]+C, 0);
+		}
+
+		for (int i = 0; i < B; i++) {
+			for (int j = 0; j < C; j++) {
+				cin >> ballot[j];
 			}
-			for (int j = 0; j < c; j++) {
-				for (int k = j+1; k < c; k++) {
-					m[a[j]][a[k]] += 1;
+			for (int j = 0; j < C; j++) {
+				for (int k = j+1; k < C; k++) {
+					beats[ballot[j]][ballot[k]] += 1;
+				}
+			}
+		}	
+
+		int winner = 0;
+		for (int i = 0; i < C; i++) {
+			for (int j = 0; j < C; j++) {
+				if (beats[i][j] > beats[j][i]) {
+					winner = i;
 				}
 			}
 		}
 
-		cout << endl;
-		for(int i = 0; i < c; i++) {
-			for (int j = 0; j < c; j++) {
-				cout << m[i][j] << " ";
-			}
-			cout << endl;
-		}
-		cout << endl;
-
-		int p = 0, i = 0;
 		bool nowinner = false;
-		while(i < c) {
-			if (m[i][p] > m[p][i]) {
-				p = i;
-				i = 0;
+		for (int i = 0; i < C; i++) {
+			if (beats[i][winner] > beats[winner][i]) {
+				nowinner = true;
 			}
-			i++;
 		}
-
-		cout << p << endl;
-		/*
+		
 		cout << "Case " << testcase << ": ";
-		if (nowinner) 	cout << "No Condorcet winner." << endl;
-		else 			cout << p << endl;
-		*/
+		if (nowinner)		cout << "No Condorcet winner";
+		else 				cout << winner;
+		cout << endl;
+
 		testcase++;
-	} while (b != 0 || c != 0);
+	
+	} while (B != 0 || C != 0);
 }
