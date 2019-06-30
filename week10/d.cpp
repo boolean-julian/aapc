@@ -18,7 +18,7 @@ void union_sets(int a, int b, int new_ancestor) {
 	ancestor[b] = new_ancestor;
 }
 
-void dfs(int v) {
+void dfs (int v) {
 	dsu[v] = v;
 	ancestor[v] = v;
 	used[v] = true;
@@ -32,3 +32,25 @@ void dfs(int v) {
 			printf("%d %d -> %d\n", v, w, ancestor[find_set(w)]);
 }
 
+
+void add_edge(int from, int to) {
+	edges[from].push_back(to);
+	edges[to].push_back(from);
+}
+
+
+int main() {
+	int N, M;
+	cin >> N >> M;
+
+	int j;
+	for (int i = 0; i < N-1; i++) {
+		cin >> j;
+		add_edge(i,j);
+	}
+
+	int a[]
+
+
+
+}
